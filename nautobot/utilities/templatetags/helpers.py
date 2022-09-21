@@ -57,12 +57,12 @@ def hyperlinked_object(value):
     if value is None:
         return placeholder(value)
     display = value.display if hasattr(value, "display") else str(value)
+    link_id = f'id=ipv{value.family}' if hasattr(value, "family") else ""
+    
     if hasattr(value, "get_absolute_url"):
         if hasattr(value, "description") and value.description:
-            if hasattr(value, "family"):
-                return format_html('<a href="{}" title="{}" id="ipv{}">{}</a>', value.get_absolute_url(), value.description, value.family, display)
-            return format_html('<a href="{}" title="{}">{}</a>', value.get_absolute_url(), value.description, display)
-        return format_html('<a href="{}">{}</a>', value.get_absolute_url(), display)
+            return format_html('<a href="{}" title="{}" {}>{}</a>', value.get_absolute_url(), value.description, link_id, display)
+        return format_html('<a href="{}" {}>{}</a>', value.get_absolute_url(), link_id, display)
     return format_html("{}", display)
 
 
